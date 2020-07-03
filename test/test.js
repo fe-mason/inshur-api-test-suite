@@ -1,5 +1,7 @@
-const chai = require('chai'), chaiHttp = require('chai-http');
+var chai = require('chai'), chaiHttp = require('chai-http');
+var expect = chai.expect;
 chai.use(chaiHttp);
+chai.use(require('chai-json'));
 
 const baseUrl = 'http://simondfranklininshur.pythonanywhere.com';
 const allProducts = '/products';
@@ -18,14 +20,14 @@ describe('inshur-app', function(){
       chai.request(baseUrl)
         .get(allProducts)
         .then(function (res) {
-            expect(res).to.have.status(200);
+            // const data = JSON.parse(res.text);
+            // console.log(data.0)
+            expect(res.text["products"]).to.have.property('productName', 'Taxi Product');
         })
         .catch(function (err) {
             throw err;
         });
   });
-
-
 });
 
 /***Scenario:Retrieve individual product

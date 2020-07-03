@@ -25,5 +25,8 @@
     "chai-http": "^4.3.0",
     "mocha": "^8.0.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "chai-json": "^1.0.0",
+    "expect.js": "^0.3.1"
+  }
 }
