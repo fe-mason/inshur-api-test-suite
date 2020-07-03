@@ -63,3 +63,29 @@ describe('inshur-products', function(){
   });
 
 });
+
+describe('inshur-customer', function(){
+
+    /***Scenario: Retreive all existing customers
+        Given: the following customers are available       
+        | customer1 | customer2 | customer3 | customer4| customer5 | customer6 |
+        When: The request is made to retrieve all customers
+        Then: all customer details are retrieved successfully***/
+    it('returns all customer details', (done) => {
+        chai.request(baseUrl)
+        .get(customers)
+        .auth('adminuser', 'adminpassword')
+        .then(function (res) {
+
+            const customers = res.body["customers"];
+            const customerEmails = customers.map(customer => customer.email);
+            const customerUsernames = customers.map(customer => customer.username);
+
+            expect(res).to.have.status(200);
+            expect(customerEmails).to.include.members(['customer1@inshur.com','customer2@inshur.com', 'customer3@inshur.com', 'customer4@inshur.com', 'customer5@inshur.com', 'customer6@inshur.com']);
+            expect(customerUsernames).to.include.members(['customer1','customer2', 'customer3', 'customer4', 'customer5', 'customer6']);
+            done();
+        })
+        .catch(done);
+    });
+});
