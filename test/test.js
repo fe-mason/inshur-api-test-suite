@@ -19,12 +19,32 @@ describe('inshur-app', function(){
       chai.request(baseUrl)
         .get(allProducts)
         .then(function (res) {
+            const products = res.body["products"];
+            const productMap = products.map(product => product.productName)
+
+            expect(productMap).to.include('Taxi Product');
+            expect(productMap).to.include('Courier Product');
+            done();
+        })
+        .catch(done);
+  });
+
+    /***Scenario:Retrieve individual product
+        Given: The product "Taxi" which has a productId of "1234"
+        When: The request is made to retrieve this product
+        Then: The product version "1.0" of "Taxi" is available***/
+
+    it('retrieves an individual product', (done) => {
+      chai.request(baseUrl)
+        .get(allProducts)
+        .then(function (res) {
             expect(res.body["products"][0]).to.have.nested.property('productName', 'Taxi Product');
             expect(res.body["products"][1]).to.have.nested.property('productName', 'Courier Product');
             done();
         })
         .catch(done);
   });
+
 });
 
 /***Scenario:Retrieve individual product
