@@ -6,7 +6,7 @@ const baseUrl = 'http://simondfranklininshur.pythonanywhere.com';
 const allProducts = '/products';
 const customers = '/customers';
 const individualProduct = '/product/';
-const productId = '';
+const taxiProductId = '1234';
 
 /***Scenario:Retrieve all products in the INSHUR app
     Given: The products "Taxi" and "courier" are available
@@ -36,10 +36,10 @@ describe('inshur-app', function(){
 
     it('retrieves an individual product', (done) => {
       chai.request(baseUrl)
-        .get(allProducts)
+        .get(`${individualProduct}/${taxiProductId}`)
         .then(function (res) {
-            expect(res.body["products"][0]).to.have.nested.property('productName', 'Taxi Product');
-            expect(res.body["products"][1]).to.have.nested.property('productName', 'Courier Product');
+            expect(res.body).to.have.property('productId', taxiProductId);
+            expect(res.body).to.have.property('productVersion', 1.0);
             done();
         })
         .catch(done);
