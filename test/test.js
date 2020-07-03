@@ -1,7 +1,6 @@
 var chai = require('chai'), chaiHttp = require('chai-http');
 var expect = chai.expect;
 chai.use(chaiHttp);
-chai.use(require('chai-json'));
 
 const baseUrl = 'http://simondfranklininshur.pythonanywhere.com';
 const allProducts = '/products';
@@ -16,17 +15,15 @@ const productId = '';
 
 describe('inshur-app', function(){
 
-  it('retrieves all available products', () => {
+  it('retrieves all available products', (done) => {
       chai.request(baseUrl)
         .get(allProducts)
         .then(function (res) {
-            // const data = JSON.parse(res.text);
-            // console.log(data.0)
-            expect(res.text["products"]).to.have.property('productName', 'Taxi Product');
+            expect(res.body["products"][0]).to.have.nested.property('productName', 'Taxi Product');
+            expect(res.body["products"][1]).to.have.nested.property('productName', 'Courier Product');
+            done();
         })
-        .catch(function (err) {
-            throw err;
-        });
+        .catch(done);
   });
 });
 
